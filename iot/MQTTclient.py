@@ -4,7 +4,7 @@ import json
 from pprint import pprint
 
 bootstrap_servers = 'localhost:9092'
-topic = 'rovothome_temp'
+topic = 'rovothome_mongo_temp'
 
 producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 def on_connect(client, userdata, flags, rc):

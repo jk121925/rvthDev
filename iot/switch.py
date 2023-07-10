@@ -71,5 +71,8 @@ def genRendomData():
     .set_switch_btn_c(random.randint(1,256))\
     .get_instance()
   return iotSwitchData
+
+# temp = json.loads(genRendomData().to_dict())
+# print(temp['sensor'])
   
 
