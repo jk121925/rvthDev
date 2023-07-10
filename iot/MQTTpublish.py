@@ -32,7 +32,7 @@ client.loop_start()
 # 'test/hello' 라는 topic 으로 메세지 발행
 cnt = 0
 while True:  
-  time.sleep(0.1)
+  time.sleep(1)
   client.publish('iot/switch', json.dumps(genRendomData().to_dict()), 0)
   
 

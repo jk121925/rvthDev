@@ -1,0 +1,13 @@
+{
+  "name": "jdbc-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "3",
+    "topics": "rovothome_sql_temp",
+    "connection.url": "jdbc:mysql://localhost:3306/rovothome_iot",
+    "connection.user": "root",
+    "connection.password": "1234",
+    "value.converter.schemas.enable": "false",
+    "key.converter.schemas.enable" : "false"
+  }
+}

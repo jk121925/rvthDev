@@ -4,7 +4,7 @@ import json
 from pprint import pprint
 
 bootstrap_servers = 'localhost:9092'
-topic = 'rovothome_temp'
+topic = 'rovothome_sql_temp'
 
 producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 def on_connect(client, userdata, flags, rc):
@@ -20,12 +20,65 @@ def on_subscribe(client, userdata, mid, granted_qos):
   print("subscribed: " + str(mid) + " " + str(granted_qos))
 
 def on_message(client, userdata, msg):
-  temp_message = str(msg.payload.decode("utf-8"))
-  json_message = json.loads(temp_message)
-  pprint(json_message)
-  key = f'key-{"sangha"}'.encode('utf-8')
-  value = f'value-{temp_message}'.encode('utf-8')
-  producer.send(topic, key=key, value=value)
+  MQTT_cloud_message = str(msg.payload.decode("utf-8"))
+  MQTT_json_message = json.loads(MQTT_cloud_message)
+  iot_json_data = json.loads(MQTT_json_message)
+  print(iot_json_data['sensor'])
+
+  key = ""
+  value = ""
+  if int(iot_json_data['sensor']['sensorHumidity']) > 50 and int(iot_json_data['sensor']['sensorTemperature']) > 50:
+    message = {
+        'schema': {
+            'type': 'struct',
+            'fields': [
+                {'field': 'name', 'type': 'string'},
+                {'field': 'status', 'type': 'boolean'}
+            ]
+        },
+        'payload': {
+            'name': 'sangha',
+            'status': True
+        }
+    }
+    key = str(1).encode('utf-8')
+    value = json.dumps(message).encode('utf-8')
+    producer.send(topic, key=key, value=value)
+  elif int(iot_json_data['sensor']['sensorHumidity']) < 50 and int(iot_json_data['sensor']['sensorTemperature']) < 50:
+      message = {
+          'schema': {
+              'type': 'struct',
+              'fields': [
+                  {'field': 'name', 'type': 'string'},
+                  {'field': 'status', 'type': 'boolean'}
+              ]
+          },
+          'payload': {
+              'name': 'jonggeun',
+              'status': False
+          }
+      }
+      key = str(2).encode('utf-8')
+      value = json.dumps(message).encode('utf-8')
+      producer.send(topic, key=key, value=value)
+
+  # if int(iot_json_data['sensor']['sensorHumidity']) >50 and int(iot_json_data['sensor']['sensorTemperature'])>50:
+  #   message = {
+  #     'name': "sangha",
+  #     'status': True
+  #   }
+  #   key = str(1).encode('utf-8')
+  #   value = json.dumps(message).encode('utf-8')
+  #   producer.send(topic, key=key, value=value)
+  # elif int(iot_json_data['sensor']['sensorHumidity']) <50 and int(iot_json_data['sensor']['sensorTemperature'])<50:
+  #   message = {
+  #     'name': "jonggeun",
+  #     'status': False
+  #   }
+  #   key = str(2).encode('utf-8')
+  #   value = json.dumps(message).encode('utf-8')
+
+  #   producer.send(topic, key=key, value=value)
 
 
 

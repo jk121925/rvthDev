@@ -2,12 +2,12 @@
   "version":1,
   "partitions":[
       {
-          "topic":"rovothome_temp",
+          "topic":"rovothome_mongo_temp",
           "partition":0,
           "replicas":[1,2]
       },
       {
-          "topic":"rovothome_temp",
+          "topic":"rovothome_mongo_temp",
           "partition":1,
           "replicas":[2,1]
       }
