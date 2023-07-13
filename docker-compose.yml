@@ -23,6 +23,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: rovothome_iot
+      MYSQL_SSL: false
     ports:
       - 3306:3306
     volumes:
@@ -152,9 +153,10 @@ services:
       CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
     volumes:
       # - ./connectors/mongodb-kafka-connect-mongodb-1.10.1/lib/:/etc/kafka-connect/jars
-      - ./path/to/local/mongo-kafka-connect-1.10.1-confluent.jar:/usr/share/java/kafka-connect/mongodb-connector.jar
-      - ./path/to/local/mysql-connector-java-8.0.29.jar:/usr/share/java/kafka-connect/temp-mysql-connector.jar
-      - ./path/to/local/kafka-connect-jdbc-10.7.3.jar:/usr/share/java/kafka-connect/mysql-connector.jar
+      # - ./path/to/local/mongo-kafka-connect-1.10.1-confluent.jar:/usr/share/java/kafka-connect/mongodb-connector.jar
+      # - ./path/to/local/mysql-connector-java-8.0.29.jar:/usr/share/java/kafka-connect/temp-mysql-connector.jar
+      # - ./path/to/local/kafka-connect-jdbc-10.7.3.jar:/usr/share/java/kafka-connect/mysql-connector.jar
+      - ./path/to/local:/usr/share/java/kafka-connect
       - ./path/to/local/connect-standalone.properties:/etc/kafka/connect-standalone.properties
       # - ./log4j.properties:/etc/kafka/connect-log4j.properties
     networks:

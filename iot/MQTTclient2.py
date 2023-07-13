@@ -22,63 +22,53 @@ def on_subscribe(client, userdata, mid, granted_qos):
 def on_message(client, userdata, msg):
   MQTT_cloud_message = str(msg.payload.decode("utf-8"))
   MQTT_json_message = json.loads(MQTT_cloud_message)
+  
   iot_json_data = json.loads(MQTT_json_message)
-  print(iot_json_data['sensor'])
-
+  
   key = ""
   value = ""
   if int(iot_json_data['sensor']['sensorHumidity']) > 50 and int(iot_json_data['sensor']['sensorTemperature']) > 50:
     message = {
-        'schema': {
-            'type': 'struct',
-            'fields': [
-                {'field': 'name', 'type': 'string'},
-                {'field': 'status', 'type': 'boolean'}
-            ]
-        },
-        'payload': {
-            'name': 'sangha',
-            'status': True
-        }
-    }
-    key = str(1).encode('utf-8')
+          'schema': {
+              'type': 'struct',
+              'fields': [
+                  {'field': 'id', 'type': 'int32'},
+                  {'field': 'name', 'type': 'string'},
+                  {'field': 'status', 'type': 'boolean'}
+              ]
+          },
+          'payload': {
+              'id': 2,
+              'name': 'Jk',
+              'status': True
+          }
+      }
+    key = str(message['payload']['id']).encode('utf-8')
     value = json.dumps(message).encode('utf-8')
+    print(value)
     producer.send(topic, key=key, value=value)
   elif int(iot_json_data['sensor']['sensorHumidity']) < 50 and int(iot_json_data['sensor']['sensorTemperature']) < 50:
       message = {
           'schema': {
               'type': 'struct',
               'fields': [
+                  {'field': 'id', 'type': 'int32'},
                   {'field': 'name', 'type': 'string'},
                   {'field': 'status', 'type': 'boolean'}
               ]
           },
           'payload': {
-              'name': 'jonggeun',
-              'status': False
+              'id': 1,
+              'name': 'John',
+              'status': True
           }
       }
-      key = str(2).encode('utf-8')
+
+      key = str(message['payload']['id']).encode('utf-8')
       value = json.dumps(message).encode('utf-8')
+      print(value)
       producer.send(topic, key=key, value=value)
 
-  # if int(iot_json_data['sensor']['sensorHumidity']) >50 and int(iot_json_data['sensor']['sensorTemperature'])>50:
-  #   message = {
-  #     'name': "sangha",
-  #     'status': True
-  #   }
-  #   key = str(1).encode('utf-8')
-  #   value = json.dumps(message).encode('utf-8')
-  #   producer.send(topic, key=key, value=value)
-  # elif int(iot_json_data['sensor']['sensorHumidity']) <50 and int(iot_json_data['sensor']['sensorTemperature'])<50:
-  #   message = {
-  #     'name': "jonggeun",
-  #     'status': False
-  #   }
-  #   key = str(2).encode('utf-8')
-  #   value = json.dumps(message).encode('utf-8')
-
-  #   producer.send(topic, key=key, value=value)
 
 
 
@@ -91,5 +81,5 @@ client.on_message = on_message
 
 client.connect("146.56.170.70", 1883)
 
-client.subscribe('iot/switch', 0)
+client.subscribe('iot/sqlSwich', 0)
 client.loop_forever()
