@@ -22,7 +22,7 @@ def on_subscribe(client, userdata, mid, granted_qos):
 def on_message(client, userdata, msg):
   temp_message = str(msg.payload.decode("utf-8"))
   json_message = json.loads(temp_message)
-  pprint(json_message)
+  # pprint(json_message)
   key = "jonggeun".encode('utf-8')
   value = temp_message.encode('utf-8')
   producer.send(topic, key=key, value=value)

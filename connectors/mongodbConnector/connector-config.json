@@ -4,12 +4,10 @@
     "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
     "tasks.max": "3",
     "topics": "rovothome_mongo_temp",
-    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "key.converter.schemas.enable": "false",
-    "value.converter.schemas.enable": "false",
     "connection.uri": "mongodb://root:1234@mongodb:27017",
     "database": "rovothome_iot",
-    "collection": "iotSwitch"
+    "collection": "iotSwitch",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter"
   }
 }

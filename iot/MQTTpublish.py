@@ -34,6 +34,7 @@ cnt = 0
 while True:  
   time.sleep(1)
   client.publish('iot/switch', json.dumps(genRendomData().to_dict()), 0)
+  client.publish('iot/sqlSwich',json.dumps(genRendomData().to_dict()), 0)
   
 
 # client.loop_stop()

@@ -2,12 +2,19 @@
   "name": "jdbc-sink",
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:mysql://localhost:3306/rovothome_iot?user=root&password=1234",
+    "connection.user":"root",
+    "connection.password":"1234",
     "tasks.max": "3",
+    "auto.create": "false",
+    "auto.evolve": "false",
     "topics": "rovothome_sql_temp",
-    "connection.url": "jdbc:mysql://localhost:3306/rovothome_iot",
-    "connection.user": "root",
-    "connection.password": "1234",
-    "value.converter.schemas.enable": "false",
-    "key.converter.schemas.enable" : "false"
+    "insert.mode": "insert",
+    "pk.mode":"record_key",
+    "table.name.format":"rovothome_iot.switch",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "true",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "true"
   }
 }
